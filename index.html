@@ -1,0 +1,133 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="libraries/p5.js"></script>
+  <script src="libraries/p5.dom.min.js"></script>
+  <script src="libraries/p5.sound.min.js"></script>
+  <script src="libraries/p5.play.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="card.js"> </script>
+  <script src="Player.js"> </script>
+  <script src="game.js"> </script>
+  <script src="form.js"> </script>
+ 
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDu9o8Z4m88sq61U6SfKCb3lg0lTwpYOJ4",
+      authDomain: "skeedroo-game.firebaseapp.com",
+      databaseURL: "https://skeedroo-game.firebaseio.com",
+      projectId: "skeedroo-game",
+      storageBucket: "skeedroo-game.appspot.com",
+      messagingSenderId: "472291019701",
+      appId: "1:472291019701:web:0d756c66c415fa60c2a7fc"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <title>SketchRoo</title>
+</head>
+
+<body>
+   <div class="container">
+      <button id="reset"> Reset</button>
+  <img class="center" src="./gamelogo-removebg-preview.png" width="75px" height="200px">
+  <!--User details when gamestate is 0-->
+  <div class="center userdetailform">
+    <form id="userdetails-form"  >
+      <input type="input" id="username" class="form-control" placeholder="Enter Your Name"/>
+        <input type="submit" id="playgame"value="Play Game">
+        <button id="howto" type="howto" class="btn btn-info" data-toggle="modal" data-target="#myModal">How to
+          play?</button>
+    </form>
+    
+  </div>
+
+  <div id="usergreetings"></div>
+  <div></div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">how to play</h4>
+        </div>
+        <div class="modal-body">
+          <p>This is a card game played by two players with age group of 10 years or above. The deck consists of X (180 to begin with) Switcheroo cards (95 Subject cards and 78 Letter Cards)
+
+            On the screen, the players see a random subject card (faced up), a random Letter card (faced up) and the deck of cards (faced down). Each player will deal with 10 cards.
+            
+            Step 1: Player-1 starts the game.
+            
+            Step 2: Look at your cards (dealt to you) and do one of the two options:
+            
+            Option 1: Use a Letter card and come up with a word that answers the card that is face up in the Subject pile. Drag and drop your card on top of the Letter pile.
+            
+            Example: If the Subject card says "Something found in a bathroom", then Drag and drop Letter card "T" and say "Toilet" or drag and drop Letter card "S' and say "Soap".
+            
+            Option 2: Use a Subject card in your hand and come up with a word that starts with the Letter that is face up in the Letter pile. Drag and drop your Subject card on top of the Subject pile.
+            
+            Example: If the Letter card says "B", then drag and drop the Subject card "Something that has seeds" and say "Blackberry".
+            
+            Step 3: If the opponent/Player-2 does not object to your answer, the play continues to the next player. If the opponent/Player-2 challenges the answer or an unacceptable answer will result in the player drawing 1 card from the main deck as a penalty. 
+            
+            The first player to get rid of his/her cards wins the game!!!
+            
+            Note A: The players can use wild cards that are either dealt or drawn while playing. With the wild card, the player can either put down 2 cards on his/her turn, play reverse direction, gain more time or switch cards between the players.
+            
+            Note B: Once a word is used as an answer ( i.e Cricket), it cannot be repeated again in the game. The player must draw 1 card as a penalty. 
+            
+            This game improves General Knowledge, English vocabulary and quick-wittedness  of the players (especially kids and teens!).
+            
+            In real world, there is a need for people to be agile to take up new challenges and act faster. Likewise, players must be able to think faster and react to the switching subjects as stated in the tag line of this game.
+            
+            
+            
+            This is a board game which i played once at a party when i was 10 years old. Since then, I was very much fasinated about this game as it made me think and use more appropriate words as quick as possible. It kept me challenging and hence made me addictive. From my primary schooling, i was always keen to improve my english vocabulary and was taking part in competitions like Spellbee, Olympiad etc. This game complimented my interest.
+            
+            My  father founded a software company called as Arka which deals with inventory management system. Prior to that, he headed a startup company which was later acquired by Salesforce. 
+            My mother is a software engineer, who works for Accenture in Life Sciences domain as a Quality Leader.
+            Observing both in computer domain, my curiosity led me to programming, which i am enjoying thoroughly. 
+            
+            
+            </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<div id="selectcard" style="display: none;">Please Select a Card from :</div>
+  <div class="displaycards"></div>
+  <form id="chatncp" style="display:none" >
+      <p id="currentuserques"></p>
+      <p id="currentuserans"></p>   
+      <p>Are you ok with answer?</p>
+      <input type="submit" id="yes"value="Yes">
+      <input type="submit" id="no"value="No">
+        </form>
+
+ 
+</div>
+
+  <script src="sketch.js"> </script>
+
+</body>
+
+</html>
